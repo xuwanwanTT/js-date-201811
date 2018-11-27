@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>日期相关</title>
+</head>
+
+<body>
+  <script>
+    /**
+    * 得到当月或指定年月的所有周一的日期
+    * @xww
+    */
+    const getWeek = (d) => {
+      const date = new Date();
+      let year = date.getFullYear();
+      let month = date.getMonth() + 1;
+      if (d) {
+        year = d.year;
+        month = d.month;
+      }
+      date.setFullYear(year, month - 1, 1); // 获取当月第一天
+      const w1 = date.getDay() || 7; // getDay 取值 0~6, 0 表示周日, 这里变成 7
+      date.setFullYear(year, month, 0); // 获取当月最后一天，这里的 month 不减
+      const allDay = date.getDate();
+      const weekData = [];
+      for (let i = 1 + 7 - w1 + 1; i <= allDay; i += 7) {
+        weekData.push(i);
+      }
+      let temp = weekData[weekData.length - 1];
+      date.setFullYear(year, month - 1, temp);
+      let time = date.getTime() + 7 * 24 * 60 * 60 * 1000;
+      date.setTime(time);
+      const yearEnd = date.getFullYear();
+      const monthEnd = date.getMonth() + 1;
+      const dayEnd = date.getDate();
+      const endDate = yearEnd + '-' + monthEnd + '-' + dayEnd;
+      weekData.push(endDate);
+    };
+
+    getWeek({ year: 2018, month: 7 });
+
+
+  </script>
+</body>
+
+</html>
